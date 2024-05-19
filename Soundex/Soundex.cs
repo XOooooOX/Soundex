@@ -1,13 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Text;
-
-namespace StringHelper;
+﻿namespace StringHelper;
 
 public static class Soundex
 {
     [AllowNull]
     private static Dictionary<string, int> _soundexMapping;
-
 
     [AllowNull]
     private static Dictionary<string, string> _soundexMappingForFirstLetter;
@@ -18,16 +14,16 @@ public static class Soundex
         SetSoundexMappingForFirstLetters();
     }
 
-
-    public static bool IsEqualSoundex([AllowNull] this string left, [AllowNull] string right)
+    public static bool IsEqualSoundex(
+        [AllowNull] this string left, 
+        [AllowNull] string right)
         => GetSoundex(left)
-            == GetSoundex(right);
+        == GetSoundex(right);
 
     [return: NotNull]
     public static string GetSoundex([AllowNull] this string input)
     {
         StringBuilder soundex = new();
-
 
         if (string.IsNullOrWhiteSpace(input))
             return string.Empty;
@@ -39,7 +35,8 @@ public static class Soundex
 
         for (int i = 1; i < input.Length; i++)
         {
-            _ = _soundexMapping.TryGetValue(input[i].ToString(), out var afterFirstChar);
+            _ = _soundexMapping.TryGetValue(input[i].ToString(),
+                out var afterFirstChar);
 
             _ = soundex.Append(afterFirstChar);
         }
